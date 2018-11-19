@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin','AdminController@Home');
+
+//获取用户输入
+//Route::get('admin/create','AdminController@create');
+//Route::post('admin','AdminController@store');
+
+//资源管理路由
+Route::resource('admin','AdminController');
