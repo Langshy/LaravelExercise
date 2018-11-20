@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class PostController extends Controller
+class IndexController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,6 +15,7 @@ class PostController extends Controller
     public function index()
     {
         //
+        return 'Hello World';
     }
 
     /**
@@ -35,6 +37,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $name = $request->input('name');
     }
 
     /**
