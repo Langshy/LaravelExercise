@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/','IndexController@home');
-Route::get('/help','IndexController@help');
-Route::get('/about','IndexController@about');
+Route::get('/','IndexController@home')->name('home');
+Route::get('/help','IndexController@help')->name('help');
+Route::get('/about','IndexController@about')->name('about');

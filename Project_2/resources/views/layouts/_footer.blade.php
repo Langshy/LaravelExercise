@@ -8,7 +8,7 @@
         </small>
         <nav>
             <ul>
-                <li><a href="{{url('/about')}}">关于</a></li>
+                <li><a href="{{route('about')}}">关于</a></li>
             </ul>
         </nav>
     </footer>
