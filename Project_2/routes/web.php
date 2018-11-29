@@ -14,3 +14,7 @@
 Route::get('/','IndexController@home')->name('home');
 Route::get('/help','IndexController@help')->name('help');
 Route::get('/about','IndexController@about')->name('about');
+
+
+//添加登录路由
+Route::get('signup','User\UserController@create')->name('signup');
