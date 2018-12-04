@@ -18,3 +18,4 @@ Route::get('/about','IndexController@about')->name('about');
 
 //添加登录路由
 Route::get('signup','User\UserController@create')->name('signup');
+Route::resource('users','User\UserController');
