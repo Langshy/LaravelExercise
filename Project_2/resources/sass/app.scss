@@ -2,6 +2,12 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+.navbar-right{
+  text-align: right;
+  a{
+    color:#f8f9fa;
+  }
+}
 
 $navbar-color:#3c3e42;
 

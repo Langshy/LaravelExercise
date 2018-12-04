@@ -10466,6 +10466,14 @@ a.text-dark:focus {
   }
 }
 
+.navbar-right {
+  text-align: right;
+}
+
+.navbar-right a {
+  color: #f8f9fa;
+}
+
 body {
   padding-top: 0;
 }
