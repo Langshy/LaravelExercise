@@ -8,6 +8,9 @@
     {{--设置视图title--}}
     <title>@yield('title','Sample App') - Laravel 入门教学</title>
     <link rel="stylesheet" href="{{url('/css/app.css')}}">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
     {{--通用视图，子视图通过继承通用视图将内容显示于@yield('content')之中--}}
@@ -28,9 +31,11 @@
 {{--</header>--}}
     @include('layouts._header')
 <div class="container">
-    @include('shared._messages')
-    @yield('content')
-    @include('layouts._footer')
+    <div class="col-md-offset-1 col-md-10">
+        @include('shared._messages')
+        @yield('content')
+        @include('layouts._footer')
+    </div>
 </div>
 </body>
 </html>

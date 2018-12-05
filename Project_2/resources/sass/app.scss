@@ -1,18 +1,12 @@
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
 
-.navbar-right{
-  text-align: right;
-  a{
-    color:#f8f9fa;
-  }
-}
 
 $navbar-color:#3c3e42;
 
 body{
-  padding-top: 0;
+  padding-top: 60px;
 }
 
 section{
@@ -69,6 +63,13 @@ p {
   font-weight: bold;
   &:hover {
     color: #fff;
+  }
+}
+
+#logout{
+  cursor: default;
+  &:hover{
+    background-color: transparent;
   }
 }
 

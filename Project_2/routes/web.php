@@ -19,3 +19,7 @@ Route::get('/about','IndexController@about')->name('about');
 //添加登录路由
 Route::get('signup','User\UserController@create')->name('signup');
 Route::resource('users','User\UserController');
+
+Route::get('login','User\SessionController@create')->name('login');
+Route::post('login','User\SessionController@store')->name('login');
+Route::delete('logout','User\SessionController@destroy')->name('logout');

@@ -1,21 +1,16 @@
 {{--子视图通过进程父类视图，渲染内容--}}
 @extends('layouts.default')
-@section('title','注册')
+@section('title','登录')
 @section('content')
     <div class="col-md-offset-2 col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5>注册</h5>
+                <h5>登录</h5>
             </div>
             @include('shared._errors')
             <div class="panel-body">
-                <form method="POST" action="{{ route('users.store') }}">
+                <form method="POST" action="{{ route('login') }}">
                     {{csrf_field()}}
-                    <div class="form-group">
-                        <label for="name">名称：</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name') }}">
-                    </div>
-
                     <div class="form-group">
                         <label for="email">邮箱：</label>
                         <input type="text" name="email" class="form-control" value="{{ old('email') }}">
@@ -26,13 +21,13 @@
                         <input type="password" name="password" class="form-control" value="{{ old('password') }}">
                     </div>
 
-                    <div class="form-group">
-                        <label for="password_confirmation">确认密码：</label>
-                        <input type="password" name="password_confirmation" class="form-control" value="{{ old('password_confirmation') }}">
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="remember">记住我</label>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">注册</button>
+                    <button type="submit" class="btn btn-primary">登录</button>
                 </form>
+                <hr>
+                <p>还没有账号？<a href="{{route('signup')}}">现在注册！</a></p>
             </div>
         </div>
     </div>

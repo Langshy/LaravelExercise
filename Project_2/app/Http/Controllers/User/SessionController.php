@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-//use App\Models\User;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class SessionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,7 +26,7 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('users.create');
+        return view('session.create');
     }
 
     /**
@@ -40,24 +38,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request,[
-            'name'=>'required|max:50',
-            'email'=>'required|email|unique:users|max:25',
-            'password'=>'required|confirmed|min:6'
+        $credentials =  $this->validate($request,[
+            'email'=>'required|email|max:25',
+            'password'=>'required'
         ]);
 
-        //添加数据
-        $user = User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>bcrypt($request->password)
-        ]);
-
-
-        //注册成功，用户登录
-        Auth::login($user);
-        session()->flash('success','欢迎，您将在这里开启一段新的旅程~');
-        return redirect()->route('users.show',[$user]);
+        //attempt 的第二个参数为是否开启记住我
+        if(Auth::attempt($credentials,$request->has('remember'))){
+            //登录成功！
+            session()->flash('success','欢迎回来！');
+            return redirect()->route('users.show',[Auth::user()]);
+        }else{
+            //登录失败!
+            session()->flash('danger','账号或密码错误!');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -66,10 +61,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //j0yhu903
-        return view('users.show',compact('user'));
+        //
     }
 
     /**
@@ -101,8 +95,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
         //
+        Auth::logout();
+        session()->flash('success','你已经成功退出！');
+        return redirect('login');
     }
 }
