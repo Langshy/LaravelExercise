@@ -18,6 +18,19 @@ class UserController extends Controller
     public function index()
     {
         //
+        $users = User::paginate(10);
+        return view('users.index',compact('users'));
+    }
+
+    public function __construct()
+    {
+        $this->middleware('auth',[
+            'except'=>['show','create','store','index']
+        ]);
+
+        $this->middleware('guest',[
+            'only'=>['create']
+        ]);
     }
 
     /**
@@ -78,9 +91,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         //
+        $this->authorize('update', $user);
+        return view('users.edit',compact('user'));
     }
 
     /**
@@ -90,9 +105,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         //
+        $this->validate($request,[
+            'name'=>'required|max:50',
+            'password'=>'nullable|min:6|confirmed'
+        ]);
+
+        $this->authorize('update', $user);
+
+        //更新
+        $data = [];
+        $data['name']=$request->name;
+        if($request->password){
+            $data['password']=bcrypt($request->password);
+        }
+        $user->update($data);
+
+        return redirect()->route('user.show',$user->id);
     }
 
     /**
@@ -101,8 +132,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
         //
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success','成功删除用户!');
+        return redirect()->back();
     }
 }
