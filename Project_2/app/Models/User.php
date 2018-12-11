@@ -30,6 +30,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    //一对多
+    public function statuses(){
+        return $this->hasMany(Status::class);
+    }
+
     public function gravatar($size = '100'){
         $hash = md5(strtolower($this->attributes['email']));
         return "http://www.gravatar.com/avatar/$hash?s=$size";
@@ -41,5 +46,9 @@ class User extends Authenticatable
         static::creating(function ($user){
             $user->activation_token = str_random(30);
         });
+    }
+
+    public function feed(){
+        return $this->statuses()->orderBy('created_at','desc');
     }
 }
