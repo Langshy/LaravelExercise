@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -35,10 +36,40 @@ class User extends Authenticatable
         return $this->hasMany(Status::class);
     }
 
+    //多对多
+    public function followers(){
+        return $this->belongsToMany(User::class,'followers','user_id','follower_id');
+    }
+
+    public function followings(){
+        return $this->belongsToMany(User::Class, 'followers', 'follower_id', 'user_id');
+    }
+
     public function gravatar($size = '100'){
         $hash = md5(strtolower($this->attributes['email']));
         return "http://www.gravatar.com/avatar/$hash?s=$size";
     }
+    //关注
+    public function follow($user_id){
+        if(is_array($user_id)){
+            $user_id = compact('user_id');
+        }
+        $this->followings()->sync($user_id,false);
+    }
+
+    //取消关注
+    public function unfollow($user_id){
+        if(is_array($user_id)){
+            $user_id = compact('user_id');
+        }
+        $this->followings()->detach($user_id);
+    }
+
+    public function isFollowing($user_id)
+    {
+        return $this->followings->contains($user_id);
+    }
+
 
     public static function boot(){
         parent::boot();
@@ -49,6 +80,13 @@ class User extends Authenticatable
     }
 
     public function feed(){
-        return $this->statuses()->orderBy('created_at','desc');
+//        return $this->statuses()->orderBy('created_at','desc');
+        $user_ids = Auth::user()->followings->pluck('id')->toArray();
+        array_push($user_ids, Auth::user()->id);
+        return Status::whereIn('user_id', $user_ids)
+            ->with('user')
+            ->orderBy('created_at', 'desc');
     }
 }
+
+
